@@ -192,15 +192,30 @@ for (name, count) in incount.items():
         maxin.append((name, count))
 print("most incoming orange: {}, {}".format(maxin[0][0], maxin[0][1]))
 
-G = nx.Graph()
-G.add_edges_from(map(lambda e: (e[0], e[1]), edges))
-cliques = list(nx.find_cliques(G))
-cliques = list(filter(lambda c: len(c) > 2, cliques))
-threeways = list(filter(lambda c: len(c) == 3, cliques))
-fourways = list(filter(lambda c: len(c) == 4, cliques))
-print(threeways)
-print(fourways)
+# G = nx.Graph()
+# G.add_edges_from(map(lambda e: (e[0], e[1]), edges))
+# cliques = list(nx.find_cliques(G))
+# cliques = list(filter(lambda c: len(c) > 2, cliques))
+# threeways = list(filter(lambda c: len(c) == 3, cliques))
+# fourways = list(filter(lambda c: len(c) == 4, cliques))
+# print(threeways)
+# print(fourways)
 
 
 # clusters of orange
 # most reciprocated connections
+
+gv = {}
+for name in verts:
+    gv[name] = []
+for (name, conn, color) in edges:
+    gv[name].append(conn)
+
+recips = {}
+for name in verts:
+    recips[name] = []
+for (name, conns) in gv.items():
+    for conn in conns:
+        if gv[conn].count(name) > 0:
+            recips[name].append(conn)
+print(recips)
